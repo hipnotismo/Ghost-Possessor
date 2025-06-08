@@ -8,8 +8,11 @@ public class PlayerController : MonoBehaviour
     public Transform cameraTransform;
 
     [Header("Movement")] public Rigidbody rb;
+
+    [Header("Object")]
     public GameObject possessedObject;
     public PossessObject test;
+
     [SerializeField] private float maxAngleMovement = 30f;
     [SerializeField] private float moveSpeed = 5f;
 
@@ -27,9 +30,12 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        HandleRotation();
-        HandleMovement();
-        HandlePossession();
+        //HandleRotation();
+        //HandleMovement();
+        if (Input.GetKeyUp(KeyCode.Q))
+            HandlePossession();
+        test.HandleMovement();
+        test.HandleRotation();
     }
     private void HandleRotation()
     {
@@ -105,6 +111,10 @@ public class PlayerController : MonoBehaviour
                 possessedObject = hit.transform.gameObject;
                 rb = possessedObject.GetComponent<Rigidbody>();
                 pivot = possessedObject.transform;
+                test.TurnOffCamera();
+                test = possessedObject.GetComponent<PossessObject>();
+                test.TurnOnCamera();
+
             }
             else
             {
