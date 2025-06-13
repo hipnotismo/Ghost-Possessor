@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IIntereactable
 {
-    
+    void Interaction(string objectTag);
 }
