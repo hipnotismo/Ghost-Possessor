@@ -30,10 +30,10 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        //HandleRotation();
-        //HandleMovement();
         if (Input.GetKeyUp(KeyCode.Q))
             HandlePossession();
+        if (Input.GetKeyUp(KeyCode.E))
+            test.Ability();
         test.HandleMovement();
         test.HandleRotation();
     }

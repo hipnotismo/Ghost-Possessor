@@ -8,10 +8,6 @@ public class PossessObject : MonoBehaviour
     [SerializeField] private float maxAngleMovement = 30f;
     [SerializeField] private float moveSpeed = 5f;
 
-    private string possessionTag = "possess";
-    private int possesionRange = 1;
-    private GameObject possessTarget;
-
     [Header("Camera")]
     public Transform pivot;
     public GameObject cameraObj;
@@ -27,14 +23,6 @@ public class PossessObject : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        //HandleRotation();
-        //HandleMovement();
-        ////HandlePossession();
-
-    }
-
     public void TurnOffCamera()
     {
         cameraObj.SetActive(false);
@@ -44,6 +32,11 @@ public class PossessObject : MonoBehaviour
         cameraObj.SetActive(true);
     }
 
+    public virtual void Ability() 
+    {
+        Debug.Log("Base class, no ability");
+    
+    }
     public void HandleRotation()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
