@@ -362,8 +362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd6f3e665748d34988a6d2cf10fae99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pivot: {fileID: 0}
-  cameraTransform: {fileID: 0}
+  pivot: {fileID: 1891819264}
+  cameraTransform: {fileID: 1946441148}
+  pivottest: {fileID: 0}
   maxAngleMovement: 30
   moveSpeed: 5
   mouseSensitivity: 100
@@ -606,7 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1891819265}
   m_Layer: 0
-  m_Name: pivot
+  m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

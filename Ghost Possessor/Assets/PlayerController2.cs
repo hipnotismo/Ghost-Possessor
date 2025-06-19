@@ -17,7 +17,6 @@ public class PlayerController2 : MonoBehaviour
     private float rotationY = 0f;
     private float rotationX = 0f;
     [SerializeField] private KeyCode shootKey = KeyCode.Q;
-    [SerializeField] private KeyCode shootKeys = KeyCode.E;
 
     private void Awake()
     {
@@ -58,7 +57,8 @@ public class PlayerController2 : MonoBehaviour
                 newController.pivot = pivot;
                 newController.cameraTransform = cameraTransform;
 
-             
+                PlayerController2 oldController = this.GetComponent<PlayerController2>();
+                Destroy(oldController);
             }
         }
     }
