@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerController2 : MonoBehaviour
 {
-    public Transform pivot;
-    public Transform cameraTransform;
+    public GameObject pivot;
+    public GameObject cameraTransform;
+    public GameObject pivottest;
 
     [Header("Movement")] private Rigidbody rb;
     [SerializeField] private float maxAngleMovement = 30f;
@@ -16,12 +17,14 @@ public class PlayerController2 : MonoBehaviour
     private float rotationY = 0f;
     private float rotationX = 0f;
     [SerializeField] private KeyCode shootKey = KeyCode.Q;
+    [SerializeField] private KeyCode shootKeys = KeyCode.E;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
+    
     private void Update()
     {
         HandleRotation();
@@ -30,10 +33,11 @@ public class PlayerController2 : MonoBehaviour
         {
             HandlePossession();
         }
+       
     }
     private void HandlePossession()
     {
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        Ray ray = new Ray(cameraTransform.transform.position, cameraTransform.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 5f))
         {
             Debug.Log("exito");
@@ -44,6 +48,17 @@ public class PlayerController2 : MonoBehaviour
                 PlayerController2 newController = newPossessable.GetComponent<PlayerController2>();
 
                 newController = newPossessable.AddComponent<PlayerController2>();
+
+                Transform newCameraPivot = newController.transform;
+                pivot.transform.SetParent(newCameraPivot);
+
+                pivot.transform.localPosition = Vector3.zero;
+                pivot.transform.localRotation = Quaternion.identity;
+
+                newController.pivot = pivot;
+                newController.cameraTransform = cameraTransform;
+
+             
             }
         }
     }
@@ -53,12 +68,12 @@ public class PlayerController2 : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
         rotationY += mouseX;
-        pivot.rotation = Quaternion.Euler(0f, rotationY, 0f);
+        pivot.transform.rotation = Quaternion.Euler(0f, rotationY, 0f);
 
         rotationX -= mouseY;
         rotationX = Mathf.Clamp(rotationX, -maxAngle, maxAngle);
 
-        cameraTransform.localRotation = Quaternion.Euler(rotationX, 0, 0f);
+        cameraTransform.transform.localRotation = Quaternion.Euler(rotationX, 0, 0f);
     }
 
     private void HandleMovement()
@@ -66,11 +81,11 @@ public class PlayerController2 : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector3 camForward = cameraTransform.forward;
+        Vector3 camForward = cameraTransform.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
 
-        Vector3 camRight = cameraTransform.right;
+        Vector3 camRight = cameraTransform.transform.right;
         camRight.y = 0f;
         camRight.Normalize();
 
