@@ -445,7 +445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &135840885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -676,7 +676,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 384744777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b5ad13f2705bd4c85cb88ec973cb30, type: 3}
+  m_Script: {fileID: 11500000, guid: c10fc808909e6eb448d5bb57f672c54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -684,7 +684,7 @@ MonoBehaviour:
   moveSpeed: 5
   pivot: {fileID: 384744782}
   cameraObj: {fileID: 100983283}
-  cameraTransform: {fileID: 100983284}
+  cameraTransform: {fileID: 963194228}
   mouseSensitivity: 100
   maxAngle: 45
 --- !u!1 &575241900
@@ -700,7 +700,6 @@ GameObject:
   - component: {fileID: 575241904}
   - component: {fileID: 575241903}
   - component: {fileID: 575241902}
-  - component: {fileID: 575241901}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: possess
@@ -708,26 +707,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &575241901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 575241900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccf078a851f77f40ab9158d240f593a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  maxAngleMovement: 30
-  moveSpeed: 5
-  pivot: {fileID: 575241906}
-  cameraObj: {fileID: 1661390391}
-  cameraTransform: {fileID: 1661390392}
-  mouseSensitivity: 100
-  maxAngle: 45
 --- !u!54 &575241902
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1461,16 +1440,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311914890}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c10fc808909e6eb448d5bb57f672c54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pivot: {fileID: 384744782}
-  cameraTransform: {fileID: 963194228}
   rb: {fileID: 0}
-  possessedObject: {fileID: 384744777}
-  currentPossessObject: {fileID: 384744783}
+  maxAngleMovement: 30
+  moveSpeed: 5
+  pivot: {fileID: 384744782}
+  cameraObj: {fileID: 0}
+  cameraTransform: {fileID: 963194228}
+  mouseSensitivity: 100
+  maxAngle: 45
 --- !u!4 &1311914892
 Transform:
   m_ObjectHideFlags: 0
