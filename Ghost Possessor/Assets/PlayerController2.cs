@@ -6,7 +6,6 @@ public class PlayerController2 : MonoBehaviour
 {
     public GameObject pivot;
     public GameObject cameraTransform;
-    public GameObject pivottest;
 
     [Header("Movement")] private Rigidbody rb;
     [SerializeField] private float maxAngleMovement = 30f;
@@ -74,6 +73,7 @@ public class PlayerController2 : MonoBehaviour
         rotationX = Mathf.Clamp(rotationX, -maxAngle, maxAngle);
 
         cameraTransform.transform.localRotation = Quaternion.Euler(rotationX, 0, 0f);
+        transform.rotation = Quaternion.Euler(0, rotationY, 0f);
     }
 
     private void HandleMovement()
