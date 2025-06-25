@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController2 : MonoBehaviour
 {
+    public static event Action<PlayerController2> onPlayerCreated;
+
     public GameObject pivot;
     public GameObject cameraTransform;
 
@@ -20,9 +23,11 @@ public class PlayerController2 : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        onPlayerCreated?.Invoke(this);
+
     }
 
-    
+
     private void Update()
     {
         HandleRotation();
@@ -35,29 +40,42 @@ public class PlayerController2 : MonoBehaviour
     }
     private void HandlePossession()
     {
-        Ray ray = new Ray(cameraTransform.transform.position, cameraTransform.transform.forward);
+        Ray ray = new Ray(transform.position, transform.forward);
+
         if (Physics.Raycast(ray, out RaycastHit hit, 5f))
         {
-            Debug.Log("exito");
-            if (hit.collider.CompareTag("possess"))
+            Debug.Log("Ray hits something");
+            if (hit.collider.CompareTag("possess") )
             {
+                Debug.Log("Trying to posses");
+
                 GameObject newPossessable = hit.collider.gameObject;
+                if (newPossessable.TryGetComponent(out PlayerController2 rb))
+                {
+                    Debug.Log(newPossessable.gameObject.name + " Already has a controller");
 
-                PlayerController2 newController = newPossessable.GetComponent<PlayerController2>();
+                }
+                else
+                {
+                    Debug.Log("Putting new controller");
 
-                newController = newPossessable.AddComponent<PlayerController2>();
+                    PlayerController2 newController = newPossessable.GetComponent<PlayerController2>();
 
-                Transform newCameraPivot = newController.transform;
-                pivot.transform.SetParent(newCameraPivot);
+                    newController = newPossessable.AddComponent<PlayerController2>();
 
-                pivot.transform.localPosition = Vector3.zero;
-                pivot.transform.localRotation = Quaternion.identity;
+                    Transform newCameraPivot = newController.transform;
+                    pivot.transform.SetParent(newCameraPivot);
 
-                newController.pivot = pivot;
-                newController.cameraTransform = cameraTransform;
+                    pivot.transform.localPosition = new Vector3(0, 0.638f, -1.667f);
+                    pivot.transform.localRotation = Quaternion.identity;
 
-                PlayerController2 oldController = this.GetComponent<PlayerController2>();
-                Destroy(oldController);
+                    newController.pivot = pivot;
+                    newController.cameraTransform = cameraTransform;
+
+                    PlayerController2 oldController = this.GetComponent<PlayerController2>();
+                    Destroy(oldController);
+                }
+               
             }
         }
     }
@@ -106,7 +124,6 @@ public class PlayerController2 : MonoBehaviour
         float currentHeight = terrain.SampleHeight(rb.position);
         float nextHeight = terrain.SampleHeight(rb.position + moveDir * 5);
 
-        Debug.Log($"Angle: {angle}");
 
         if (angle > maxAngleMovement && nextHeight > currentHeight)
             return false;

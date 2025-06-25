@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Slider fakeLoadingBar;
-    [SerializeField] private float fakeDuration = 3f;
-    [SerializeField] private Canvas Canvas;
+    [SerializeField] private float fakeDuration = 1.5f;
+
+    public static event Action onLoadingCompleted;
 
     private void Awake()
     {
@@ -23,24 +25,25 @@ public class SceneLoader : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void LoadSceneWithFakeLoading(string sceneName, GameObject canvas)
+   
+
+    public void LoadSceneWithFakeLoading(string sceneName)
     {
         if (loadingScreen == null || fakeLoadingBar == null)
         {
             Debug.LogError("SceneLoader: loadingScreen o fakeLoadingBar no están asignados.");
             return;
         }
-        StartCoroutine(LoadSceneWithFakeBar(sceneName, canvas));
+        StartCoroutine(LoadSceneWithFakeBar(sceneName));
     }
 
-    private IEnumerator LoadSceneWithFakeBar(string sceneName, GameObject c)
+    private IEnumerator LoadSceneWithFakeBar(string sceneName)
     {
         loadingScreen.SetActive(true);
         fakeLoadingBar.gameObject.SetActive(true);
-        c.SetActive(false);
         fakeLoadingBar.value = 0;
 
-        AsyncOperation realLoad = SceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation realLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         realLoad.allowSceneActivation = false;
 
         float elapsed = 0f;
@@ -69,5 +72,8 @@ public class SceneLoader : MonoBehaviour
 
         if (fakeLoadingBar != null)
             fakeLoadingBar.gameObject.SetActive(false);
+
+        onLoadingCompleted?.Invoke();
+
     }
 }
