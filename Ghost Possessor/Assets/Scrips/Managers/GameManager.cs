@@ -54,17 +54,20 @@ public class GameManager : MonoBehaviour
             SceneLoader.Instance.LoadSceneWithFakeLoading(sceneName);
             currentLoadedSceneName = sceneName;
             this.targetTransform = targetTransform;
+            Debug.Log("The position gived by the portla is: " + targetTransform.transform.position + "and the position store by the game manager is: "+ this.targetTransform.transform.position);
         }
     }
 
     private void HandlePortalToMainEnter(GameObject go, Transform targetTransform)
     {
-        Debug.Log(go + " " + targetTransform);
         if (go.CompareTag("possess"))
         {
+            Debug.Log("The possition gived is: " + targetTransform.transform.position);
 
             possessable.transform.position = targetTransform.position;
             possessable.transform.rotation = targetTransform.rotation;
+            Debug.Log("The new possition  is: " + possessable.transform.position);
+
             main.SetActiveGo(true);
             SceneManager.UnloadSceneAsync(currentLoadedSceneName);
         }

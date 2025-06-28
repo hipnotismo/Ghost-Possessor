@@ -15,6 +15,7 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("The position gived by the portal is: " + targetTransform.transform.position);
         if (leadsToMainScene)
         {
             onPortalToMainEnter?.Invoke(other.gameObject, targetTransform);
