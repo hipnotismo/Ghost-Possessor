@@ -10,7 +10,8 @@ public class PlayerController2 : MonoBehaviour
     public GameObject pivot;
     public GameObject cameraTransform;
 
-    [Header("Movement")] private Rigidbody rb;
+    [Header("Movement")] 
+    private Rigidbody rb;
     [SerializeField] private float maxAngleMovement = 30f;
     [SerializeField] private float moveSpeed = 5f;
 
@@ -24,7 +25,6 @@ public class PlayerController2 : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         onPlayerCreated?.Invoke(this);
-
     }
 
 
