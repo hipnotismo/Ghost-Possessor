@@ -11,9 +11,9 @@ public class PlayerController2 : MonoBehaviour
     public GameObject cameraTransform;
 
     [Header("Movement")] 
-    private Rigidbody rb;
-    [SerializeField] private float maxAngleMovement = 30f;
-    [SerializeField] private float moveSpeed = 5f;
+    public Rigidbody rb;
+    [SerializeField] public float maxAngleMovement = 30f;
+    [SerializeField] public float moveSpeed = 5f;
 
     [Header("Rotation")][SerializeField] private float mouseSensitivity = 100f;
     [SerializeField] private float maxAngle = 45f;
@@ -21,17 +21,25 @@ public class PlayerController2 : MonoBehaviour
     private float rotationX = 0f;
     [SerializeField] private KeyCode shootKey = KeyCode.Q;
 
+    private FiniteStateMachine stateMachine;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         onPlayerCreated?.Invoke(this);
+        //stateMachine = new FiniteStateMachine();
+        stateMachine = GetComponent<FiniteStateMachine>();
+        if (stateMachine == null)
+            stateMachine = new FiniteStateMachine();
+        stateMachine.GetPlayer(this);
+        stateMachine.Initialize();
     }
 
 
     private void Update()
     {
+        stateMachine.OnUpdate();
         HandleRotation();
-        HandleMovement();
+       // HandleMovement();
         if (Input.GetKeyDown(shootKey))
         {
             HandlePossession();

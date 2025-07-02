@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class FiniteStateMachine : MonoBehaviour
 {
-    private BaseState currentState ;
+    public BaseState currentState ;
     
 
-    private List<BaseState> state = new List<BaseState>();
+    public List<BaseState> state = new List<BaseState>(); 
+    public PlayerController2 player;
     public virtual void Initialize()
     {
         
-        state.Add(new IdlePlayer(this));
-        state.Add(new WalkPlayer(this));
-        state.Add(new JumpPlayer(this));
+        state.Add(new IdlePlayer(this,player));
+        state.Add(new WalkPlayer(this, player));
+        //state.Add(new JumpPlayer(this, player));
         currentState = state[0];
     }
 
+    public void GetPlayer(PlayerController2 controller)
+    {
+        player = controller;
+    }
     public void OnUpdate()
     {
         currentState.OnUpdate();
@@ -35,6 +40,6 @@ public class FiniteStateMachine : MonoBehaviour
         foreach (BaseState state in state) 
             if (state.playerState == enemyStates)
                 return state;
-        return null;
+        return currentState;
     }
 }

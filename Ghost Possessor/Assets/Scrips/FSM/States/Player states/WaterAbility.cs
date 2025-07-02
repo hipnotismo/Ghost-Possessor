@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalkPlayer : BaseState
+public class WaterAbility : BaseState
 {
-    public WalkPlayer(FiniteStateMachine fsm) : base(fsm)
-    {
+    private PlayerController2 player;
 
+    public WaterAbility(FiniteStateMachine fsm, PlayerController2 player) : base(fsm, player.gameObject)
+    {
+        this.player = player;
+        playerState = PlayerState.water;
     }
+
     public override void Init()
     {
-        playerState = PlayerState.idle;
+
     }
 
     public override void OnEnter()
@@ -20,7 +24,8 @@ public class WalkPlayer : BaseState
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
+        Debug.Log("ABILITY WATER");
+       
     }
 
     public override void OnExit()

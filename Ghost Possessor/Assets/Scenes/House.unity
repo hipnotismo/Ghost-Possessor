@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482d45b57d624024ebef0825c0971451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoadName: SampleScene
+  sceneToLoadName: MainScene
   targetTransform: {fileID: 1704217289}
   leadsToMainScene: 1
 --- !u!65 &1382373838

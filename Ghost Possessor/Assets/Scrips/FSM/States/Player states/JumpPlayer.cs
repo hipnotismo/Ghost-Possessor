@@ -1,15 +1,17 @@
 
-public class IdlePlayer:BaseState
+public class JumpPlayer:BaseState
 {
-    public IdlePlayer(FiniteStateMachine fsm) : base(fsm)
-    {
+    private PlayerController2 player;
 
+    public JumpPlayer(FiniteStateMachine fsm, PlayerController2 player) : base(fsm, player.gameObject)
+    {
+        this.player = player;
     }
+
     public override void Init()
     {
-        playerState = PlayerState.idle;
+        playerState = PlayerState.jump;
     }
-
     public override void OnEnter()
     {
         base.OnEnter();
