@@ -1,3 +1,4 @@
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,14 +23,19 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] private KeyCode shootKey = KeyCode.Q;
 
     private FiniteStateMachine stateMachine;
+    private BaseStateList states = null;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         onPlayerCreated?.Invoke(this);
-        //stateMachine = new FiniteStateMachine();
-        stateMachine = GetComponent<FiniteStateMachine>();
-        if (stateMachine == null)
-            stateMachine = new FiniteStateMachine();
+        stateMachine = new FiniteStateMachine();
+        states = GetComponent<BaseStateList>();
+        if (states != null)
+        {
+            Debug.Log("WE ARE NOT NULL");
+            stateMachine.Initialize(states.Initialize(stateMachine, this));
+
+        }
         stateMachine.GetPlayer(this);
         stateMachine.Initialize();
     }

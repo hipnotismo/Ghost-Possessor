@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FiniteStateMachine : MonoBehaviour
+public class FiniteStateMachine 
 {
     public BaseState currentState ;
     
@@ -14,7 +14,12 @@ public class FiniteStateMachine : MonoBehaviour
         
         state.Add(new IdlePlayer(this,player));
         state.Add(new WalkPlayer(this, player));
-        //state.Add(new JumpPlayer(this, player));
+        currentState = state[0];
+    }
+
+    public virtual void Initialize(List<BaseState> states)
+    {
+        state = states;
         currentState = state[0];
     }
 
