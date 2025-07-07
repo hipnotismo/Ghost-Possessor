@@ -21,4 +21,14 @@ public class MenuManager : MonoBehaviour
 
         GameManager.Instance.SingleLoading("Main Scene");
     }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+
+    }
 }

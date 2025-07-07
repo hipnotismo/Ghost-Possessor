@@ -103,11 +103,10 @@ GameObject:
   - component: {fileID: 8414615805052727222}
   - component: {fileID: 5372212969246214970}
   - component: {fileID: 4066347089650641414}
-  - component: {fileID: 1279074556377351569}
   - component: {fileID: 8230228200275124587}
   - component: {fileID: 6440705699097447749}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Player
   m_TagString: possess
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,26 +178,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1279074556377351569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4696923835375513961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd6f3e665748d34988a6d2cf10fae99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pivot: {fileID: 5680905731192129377}
-  cameraTransform: {fileID: 1032617634013748704}
-  pivottest: {fileID: 0}
-  maxAngleMovement: 30
-  moveSpeed: 5
-  mouseSensitivity: 100
-  maxAngle: 45
-  shootKey: 113
 --- !u!65 &8230228200275124587
 BoxCollider:
   m_ObjectHideFlags: 0
