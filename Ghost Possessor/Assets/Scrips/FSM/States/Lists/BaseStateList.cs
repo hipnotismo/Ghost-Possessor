@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class BaseStateList : MonoBehaviour
 {
-    public abstract List<BaseState> Initialize(FiniteStateMachine machine,PlayerController2 player);
+    public abstract List<BaseState> Initialize(FiniteStateMachine machine,PlayerController player);
 }

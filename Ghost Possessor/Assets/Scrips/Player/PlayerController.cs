@@ -1,75 +1,123 @@
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //public Transform pivot;
-    //public Transform cameraTransform;
+    public static event Action<PlayerController> onPlayerCreated;
 
-    //[Header("Movement")] public Rigidbody rb;
+    public GameObject pivot;
+    public GameObject cameraTransform;
 
-    //[Header("Object")]
-    //public GameObject possessedObject;
-    //public PossessObject currentPossessObject;
-
-    private string possessionTag = "possess";
-    private int possesionRange = 1;
-
-    [Header("Movement")] public Rigidbody rb;
-    [SerializeField] private float maxAngleMovement = 30f;
-    [SerializeField] private float moveSpeed = 5f;
-
-    [Header("Camera")]
-    public Transform pivot;
-    public GameObject cameraObj;
-    public Transform cameraTransform;
+    [Header("Movement")] 
+    public Rigidbody rb;
+    [SerializeField] public float maxAngleMovement = 30f;
+    [SerializeField] public float moveSpeed = 5f;
 
     [Header("Rotation")][SerializeField] private float mouseSensitivity = 100f;
     [SerializeField] private float maxAngle = 45f;
     private float rotationY = 0f;
     private float rotationX = 0f;
+    [SerializeField] private KeyCode shootKey = KeyCode.Q;
 
-
+    private FiniteStateMachine stateMachine;
+    private BaseStateList states = null;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        cameraTransform = transform.Find("Camera Pivot");
+        onPlayerCreated?.Invoke(this);
+        stateMachine = new FiniteStateMachine();
+        states = GetComponent<BaseStateList>();
+        if (states != null)
+        {
+            Debug.Log("WE ARE NOT NULL");
+            stateMachine.Initialize(states.Initialize(stateMachine, this));
 
+        }
+        stateMachine.GetPlayer(this);
+        stateMachine.Initialize();
     }
+
+
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q))
-            HandlePossession();
-        //if (Input.GetKeyUp(KeyCode.E))
-        //    currentPossessObject.Ability();
-        HandleMovement();
+        stateMachine.OnUpdate();
         HandleRotation();
+       // HandleMovement();
+        if (Input.GetKeyDown(shootKey))
+        {
+            HandlePossession();
+        }
+       
     }
+    private void HandlePossession()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
 
-    public void HandleRotation()
+        if (Physics.Raycast(ray, out RaycastHit hit, 5f))
+        {
+            Debug.Log("Ray hits something");
+            if (hit.collider.CompareTag("possess") )
+            {
+                Debug.Log("Trying to posses");
+
+                GameObject newPossessable = hit.collider.gameObject;
+                if (newPossessable.TryGetComponent(out PlayerController rb))
+                {
+                    Debug.Log(newPossessable.gameObject.name + " Already has a controller");
+
+                }
+                else
+                {
+                    Debug.Log("Putting new controller");
+
+                    PlayerController newController = newPossessable.GetComponent<PlayerController>();
+
+                    newController = newPossessable.AddComponent<PlayerController>();
+
+                    Transform newCameraPivot = newController.transform;
+                    pivot.transform.SetParent(newCameraPivot);
+
+                    pivot.transform.localPosition = new Vector3(0, 0.638f, -1.667f);
+                    pivot.transform.localRotation = Quaternion.identity;
+
+                    newController.pivot = pivot;
+                    newController.cameraTransform = cameraTransform;
+
+                    PlayerController oldController = this.GetComponent<PlayerController>();
+                    Destroy(oldController);
+                }
+               
+            }
+        }
+    }
+    private void HandleRotation()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
         rotationY += mouseX;
-        pivot.rotation = Quaternion.Euler(0f, rotationY, 0f);
+        pivot.transform.rotation = Quaternion.Euler(0f, rotationY, 0f);
 
         rotationX -= mouseY;
         rotationX = Mathf.Clamp(rotationX, -maxAngle, maxAngle);
 
-        cameraTransform.localRotation = Quaternion.Euler(rotationX, 0, 0f);
+        cameraTransform.transform.localRotation = Quaternion.Euler(rotationX, 0, 0f);
+        transform.rotation = Quaternion.Euler(0, rotationY, 0f);
     }
 
-    public void HandleMovement()
+    private void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector3 camForward = cameraTransform.forward;
+        Vector3 camForward = cameraTransform.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
 
-        Vector3 camRight = cameraTransform.right;
+        Vector3 camRight = cameraTransform.transform.right;
         camRight.y = 0f;
         camRight.Normalize();
 
@@ -90,7 +138,6 @@ public class PlayerController : MonoBehaviour
         float currentHeight = terrain.SampleHeight(rb.position);
         float nextHeight = terrain.SampleHeight(rb.position + moveDir * 5);
 
-        Debug.Log($"Angle: {angle}");
 
         if (angle > maxAngleMovement && nextHeight > currentHeight)
             return false;
@@ -105,62 +152,6 @@ public class PlayerController : MonoBehaviour
         return new Vector3((pos.x - terrain.transform.position.x) / terrain.terrainData.size.x,
                            0,
                            (pos.z - terrain.transform.position.z) / terrain.terrainData.size.z);
-    }
-
-    public void SetRigidbody(Rigidbody rigid)
-    {
-        rb = rigid;
-    }
-
-    public void HandlePossession()
-    {
-        RaycastHit hit;
-
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, possesionRange))
-        {
-            Debug.DrawRay(transform.position, forward, Color.blue);
-            if (hit.transform.CompareTag(possessionTag))
-            {
-                //Debug.Log("Did Hit a valid target");
-                //possessedObject = hit.transform.gameObject;
-                //rb = possessedObject.GetComponent<Rigidbody>();
-                //pivot = possessedObject.transform;
-                //currentPossessObject = possessedObject.GetComponent<PossessObject>();
-                GameObject newObj = hit.collider.gameObject;
-                PlayerController newController = newObj.GetComponent<PlayerController>();
-                Transform newCameraPivot = newObj.transform;
-                cameraTransform.SetParent(newCameraPivot);
-
-                cameraTransform.localPosition = Vector3.zero;
-                cameraTransform.localRotation = Quaternion.identity;
-                newController.cameraTransform = cameraTransform;
-
-                Rigidbody rb = newObj.GetComponent<Rigidbody>();
-                if (rb == null)
-                    rb = newObj.AddComponent<Rigidbody>();
-
-                rb.isKinematic = false;
-
-                newController.SetRigidbody(rb);
-                newController.enabled = true;
-                //currentController = newController;
-
-
-            }
-            else
-            {
-                Debug.Log("Did not Hit a valid target");
-            }
-        }
-        else
-        {
-            //Debug.DrawRay(possessedObject.transform.position, forward, Color.red);
-
-
-            Debug.Log("Did not Hit");
-        }
     }
 }
 

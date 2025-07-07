@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class IdlePlayer:BaseState
 {
-    private PlayerController2 player;
+    private PlayerController player;
 
-    public IdlePlayer(FiniteStateMachine fsm, PlayerController2 player) : base(fsm, player.gameObject)
+    public IdlePlayer(FiniteStateMachine fsm, PlayerController player) : base(fsm, player.gameObject)
     {
         this.player = player;
         playerState = PlayerState.idle;
@@ -32,7 +32,7 @@ public class IdlePlayer:BaseState
         }
         if (Input.GetKeyDown(shootKey))
         {
-            fsm.ChangeTo(PlayerState.jump);
+            fsm.ChangeTo(PlayerState.water);
         }
     }
 

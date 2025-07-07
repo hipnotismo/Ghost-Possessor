@@ -10,7 +10,7 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Slider fakeLoadingBar;
-    [SerializeField] private float fakeDuration = 1.5f;
+    [SerializeField] private float fakeDuration = 0.5f;
 
     public static event Action onLoadingCompleted;
 

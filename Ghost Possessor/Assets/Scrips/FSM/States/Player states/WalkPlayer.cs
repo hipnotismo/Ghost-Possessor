@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class WalkPlayer : BaseState
 {
-    private PlayerController2 player;
+    private PlayerController player;
 
-    public WalkPlayer(FiniteStateMachine fsm, PlayerController2 player) : base(fsm, player.gameObject)
+    public WalkPlayer(FiniteStateMachine fsm, PlayerController player) : base(fsm, player.gameObject)
     {
         this.player = player;
         playerState = PlayerState.walk;

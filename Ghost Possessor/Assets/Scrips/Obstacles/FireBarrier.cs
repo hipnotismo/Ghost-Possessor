@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBarrier : MonoBehaviour, IIntereactable
+public class FireBarrier : MonoBehaviour, IInteractable
 {
-    [SerializeField] string interactionTag;
+    [SerializeField] private string interactionTag;
    
     public void Interaction(string objectTag)
     {

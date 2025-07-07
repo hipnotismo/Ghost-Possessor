@@ -5,29 +5,42 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerController2 possessable;
+    public static GameManager Instance { get; private set; }
+
+    public PlayerController possessable;
 
     public GameObject canvas;
     private Transform targetTransform = null;
     private string currentLoadedSceneName = null;
     [SerializeField] private SceneReferences main = null;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void OnEnable()
     {
         SceneReferences.onLoaded += HandleSceneReferencesLoaded;
         Portal.onPortalToSceneEnter += HandlePortalSceneEntry;
         Portal.onPortalToMainEnter += HandlePortalToMainEnter;
-        PlayerController2.onPlayerCreated += HandlePlayerCreated;
+        PlayerController.onPlayerCreated += HandlePlayerCreated;
     }
     private void OnDisable()
     {
         SceneReferences.onLoaded -= HandleSceneReferencesLoaded;
         Portal.onPortalToSceneEnter -= HandlePortalSceneEntry;
         Portal.onPortalToMainEnter -= HandlePortalToMainEnter;
-        PlayerController2.onPlayerCreated += HandlePlayerCreated;
+        PlayerController.onPlayerCreated += HandlePlayerCreated;
 
     }
+
     private void HandleSceneReferencesLoaded(SceneReferences scene)
     {
         if (main == null)
@@ -36,9 +49,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SingleLoading()
+    public void SingleLoading(string targetScene)
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        Scene m_Scene = SceneManager.GetActiveScene();
+        currentLoadedSceneName = m_Scene.name;
+        SceneLoader.onLoadingCompleted += UnloadScene;
+        SceneLoader.Instance.LoadSceneWithFakeLoading(targetScene);
+
 
     }
     public void LoadScene(string targetScene)
@@ -53,7 +70,7 @@ public class GameManager : MonoBehaviour
             SceneLoader.onLoadingCompleted += HandleSceneLoadingComplete;
             SceneLoader.Instance.LoadSceneWithFakeLoading(sceneName);
             currentLoadedSceneName = sceneName;
-            this.targetTransform = targetTransform;
+            this.targetTransform = targetTransform;           
             Debug.Log("The position gived by the portla is: " + targetTransform.transform.position + "and the position store by the game manager is: "+ this.targetTransform.transform.position);
         }
     }
@@ -73,6 +90,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void UnloadScene()
+    {
+        SceneManager.UnloadSceneAsync(currentLoadedSceneName);
+        SceneLoader.onLoadingCompleted -= UnloadScene;
+
+    }
+
+    public void UnloadHouse(string sceneName)
+    {
+        SceneManager.UnloadSceneAsync(sceneName);
+
+    }
     private void HandleSceneLoadingComplete()
     {
         main.SetActiveGo(false);
@@ -82,7 +111,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void HandlePlayerCreated(PlayerController2 player)
+    private void HandlePlayerCreated(PlayerController player)
     {
         this.possessable = player;
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IIntereactable
+public interface IInteractable 
 {
-    void Interaction(string objectTag);
+    void Interaction(string ActivationTag);
 }

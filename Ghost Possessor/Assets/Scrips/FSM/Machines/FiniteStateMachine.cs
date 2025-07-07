@@ -8,7 +8,7 @@ public class FiniteStateMachine
     
 
     public List<BaseState> state = new List<BaseState>(); 
-    public PlayerController2 player;
+    public PlayerController player;
     public virtual void Initialize()
     {
         
@@ -23,7 +23,7 @@ public class FiniteStateMachine
         currentState = state[0];
     }
 
-    public void GetPlayer(PlayerController2 controller)
+    public void GetPlayer(PlayerController controller)
     {
         player = controller;
     }

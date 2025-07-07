@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaterStates : BaseStateList
 {
-    public override List<BaseState> Initialize(FiniteStateMachine machine, PlayerController2 player)
+    public override List<BaseState> Initialize(FiniteStateMachine machine, PlayerController player)
     {
         Debug.Log("WE GOT TO WATER");
         List<BaseState> state = new List<BaseState>();

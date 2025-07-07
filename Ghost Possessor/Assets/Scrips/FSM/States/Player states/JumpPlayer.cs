@@ -1,9 +1,9 @@
 
 public class JumpPlayer:BaseState
 {
-    private PlayerController2 player;
+    private PlayerController player;
 
-    public JumpPlayer(FiniteStateMachine fsm, PlayerController2 player) : base(fsm, player.gameObject)
+    public JumpPlayer(FiniteStateMachine fsm, PlayerController player) : base(fsm, player.gameObject)
     {
         this.player = player;
     }
