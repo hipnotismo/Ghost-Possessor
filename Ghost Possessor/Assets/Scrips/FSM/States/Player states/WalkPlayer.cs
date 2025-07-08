@@ -43,11 +43,7 @@ public class WalkPlayer : BaseState
 
         if (CanMove(moveDir))
             player.rb.velocity = velocity;
-
-        //if (dir.magnitude > 0.1f)
-        //{
-        //    fsm.ChangeTo(PlayerState.walk);
-        //}
+       
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (moveInput == Vector2.zero)
         {
