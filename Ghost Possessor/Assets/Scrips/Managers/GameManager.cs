@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour
     private Transform targetTransform = null;
     private string currentLoadedSceneName = null;
     [SerializeField] private SceneReferences main = null;
+
+    public static event Action onLoading;
 
     private void Awake()
     {
@@ -67,11 +70,13 @@ public class GameManager : MonoBehaviour
     {
         if (go.CompareTag("possess"))
         {
+            onLoading?.Invoke();
+
             SceneLoader.onLoadingCompleted += HandleSceneLoadingComplete;
             SceneLoader.Instance.LoadSceneWithFakeLoading(sceneName);
             currentLoadedSceneName = sceneName;
-            this.targetTransform = targetTransform;           
-            Debug.Log("The position gived by the portla is: " + targetTransform.transform.position + "and the position store by the game manager is: "+ this.targetTransform.transform.position);
+            this.targetTransform = targetTransform;
+
         }
     }
 
@@ -79,15 +84,27 @@ public class GameManager : MonoBehaviour
     {
         if (go.CompareTag("possess"))
         {
-            Debug.Log("The possition gived is: " + targetTransform.transform.position);
+            onLoading?.Invoke();
 
-            possessable.transform.position = targetTransform.position;
-            possessable.transform.rotation = targetTransform.rotation;
-            Debug.Log("The new possition  is: " + possessable.transform.position);
+            SceneLoader.onLoadingCompleted += HandleHouseDeloadingComplete;
 
-            main.SetActiveGo(true);
-            SceneManager.UnloadSceneAsync(currentLoadedSceneName);
+            SceneLoader.Instance.LoadSceneWithFakeLoading("null");
+
+            this.targetTransform = targetTransform;
+
+
         }
+    }
+
+    private void HandleHouseDeloadingComplete()
+    {
+        possessable.transform.position = targetTransform.position;
+        possessable.transform.rotation = targetTransform.rotation;
+
+        main.SetActiveGo(true);
+        SceneLoader.onLoadingCompleted -= HandleHouseDeloadingComplete;
+        onLoading?.Invoke();
+        SceneManager.UnloadSceneAsync(currentLoadedSceneName);
     }
 
     private void UnloadScene()
@@ -102,12 +119,16 @@ public class GameManager : MonoBehaviour
         SceneManager.UnloadSceneAsync(sceneName);
 
     }
+
+
     private void HandleSceneLoadingComplete()
     {
         main.SetActiveGo(false);
         possessable.transform.position = targetTransform.position;
         possessable.transform.rotation = targetTransform.rotation;
         SceneLoader.onLoadingCompleted -= HandleSceneLoadingComplete;
+        onLoading?.Invoke();
+
 
     }
 

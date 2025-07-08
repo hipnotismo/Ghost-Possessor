@@ -9,6 +9,11 @@ public class PlayerPause : MonoBehaviour
     [SerializeField] private KeyCode pauseKey = KeyCode.P;
     public static event Action<bool> onPausePress;
 
+    private void OnEnable()
+    {
+        GameplayMenu.onKeepPlayingPress += HandleReturnFromMenu;
+    }
+
     void Update()
     {
         if (Input.GetKeyUp(pauseKey))
@@ -16,5 +21,11 @@ public class PlayerPause : MonoBehaviour
             isPause = !isPause;
             onPausePress?.Invoke(isPause);
         }
+    }
+
+    private void HandleReturnFromMenu()
+    {
+        isPause = !isPause;
+        onPausePress?.Invoke(isPause);
     }
 }

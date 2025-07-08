@@ -24,6 +24,19 @@ public class PlayerController : MonoBehaviour
 
     private FiniteStateMachine stateMachine;
     private BaseStateList states = null;
+
+    private bool isLoading;
+
+    private void OnEnable()
+    {
+        GameManager.onLoading += HandleLoading;
+
+    }
+    private void OnDisable()
+    {
+        
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,15 +56,24 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        stateMachine.OnUpdate();
-        HandleRotation();
-       // HandleMovement();
-        if (Input.GetKeyDown(shootKey))
+        if (!isLoading)
         {
-            HandlePossession();
+            stateMachine.OnUpdate();
+            HandleRotation();
+            // HandleMovement();
+            if (Input.GetKeyDown(shootKey))
+            {
+                HandlePossession();
+            }
         }
-       
     }
+
+    private void HandleLoading()
+    {
+        Debug.Log("here");
+        isLoading = !isLoading;
+    }
+
     private void HandlePossession()
     {
         Ray ray = new Ray(transform.position, transform.forward);

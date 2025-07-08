@@ -102,9 +102,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8414615805052727222}
   - component: {fileID: 5372212969246214970}
-  - component: {fileID: 4066347089650641414}
+  - component: {fileID: 8791975806060445672}
   - component: {fileID: 8230228200275124587}
   - component: {fileID: 6440705699097447749}
+  - component: {fileID: 4174880019104928532}
   m_Layer: 0
   m_Name: Player
   m_TagString: possess
@@ -136,48 +137,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4696923835375513961}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4066347089650641414
-MeshRenderer:
+--- !u!114 &8791975806060445672
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4696923835375513961}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10fc808909e6eb448d5bb57f672c54f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pivot: {fileID: 5680905731192129377}
+  cameraTransform: {fileID: 1032617634013748704}
+  rb: {fileID: 0}
+  maxAngleMovement: 30
+  moveSpeed: 5
+  mouseSensitivity: 100
+  maxAngle: 45
+  shootKey: 113
 --- !u!65 &8230228200275124587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -226,6 +205,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &4174880019104928532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4696923835375513961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6774126babdbc9f4fa01252cacac4af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseKey: 112
 --- !u!1 &5680905731192129377
 GameObject:
   m_ObjectHideFlags: 0

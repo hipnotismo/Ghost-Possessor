@@ -11,14 +11,11 @@ public class MenuManager : MonoBehaviour
 
     public void TurnOffPanel(GameObject panel)
     {
-        Debug.Log("this");
         panel.SetActive(false);
     }
 
     public void SceneChange()
     {
-        Debug.Log("that");
-
         GameManager.Instance.SingleLoading("Main Scene");
     }
 

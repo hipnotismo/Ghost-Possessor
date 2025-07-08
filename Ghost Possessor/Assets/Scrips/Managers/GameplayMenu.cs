@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class GameplayMenu : MonoBehaviour
 {
     [SerializeField] private GameObject pauseCanvas;
+
+    public static event Action onKeepPlayingPress;
 
     private void OnEnable()
     {
@@ -27,5 +30,19 @@ public class GameplayMenu : MonoBehaviour
             Time.timeScale = 1;
 
         }
+    }
+
+    public void KeepPlaying()
+    {
+        onKeepPlayingPress?.Invoke();
+    }
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+
     }
 }

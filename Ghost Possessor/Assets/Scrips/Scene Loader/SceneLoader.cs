@@ -14,6 +14,8 @@ public class SceneLoader : MonoBehaviour
 
     public static event Action onLoadingCompleted;
 
+    AsyncOperation realLoad;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -43,8 +45,12 @@ public class SceneLoader : MonoBehaviour
         fakeLoadingBar.gameObject.SetActive(true);
         fakeLoadingBar.value = 0;
 
-        AsyncOperation realLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        realLoad.allowSceneActivation = false;
+        if (sceneName != "null")
+        {
+            realLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            realLoad.allowSceneActivation = false;
+        }
+       
 
         float elapsed = 0f;
 
@@ -54,18 +60,25 @@ public class SceneLoader : MonoBehaviour
             float fakeProgress = Mathf.Clamp01(elapsed / fakeDuration);
             fakeLoadingBar.value = fakeProgress;
 
-            if (realLoad.progress >= 0.9f && fakeProgress >= 0.99f)
-                break;
+            if (sceneName != "null")
+            {
+                if (realLoad.progress >= 0.9f && fakeProgress >= 0.99f)
+                    break;
+            }
+               
 
             yield return null;
         }
         yield return new WaitForSeconds(0.3f);
 
         fakeLoadingBar.value = 1f;
-
-        realLoad.allowSceneActivation = true;
-        while (!realLoad.isDone)
-            yield return null;
+        if (sceneName != "null")
+        {
+            realLoad.allowSceneActivation = true;
+            while (!realLoad.isDone)
+                yield return null;
+        }
+            
 
         if (loadingScreen != null)
             loadingScreen.SetActive(false);
