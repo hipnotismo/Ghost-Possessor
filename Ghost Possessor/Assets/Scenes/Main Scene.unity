@@ -2520,6 +2520,14 @@ PrefabInstance:
       propertyPath: fakeDuration
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2098614233684260552, guid: 0e080aed444078c4da469493a6e69060, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3041475120420735709, guid: 0e080aed444078c4da469493a6e69060, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3357486852336869898, guid: 0e080aed444078c4da469493a6e69060, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.289174
@@ -2567,6 +2575,14 @@ PrefabInstance:
     - target: {fileID: 5369435828170849034, guid: 0e080aed444078c4da469493a6e69060, type: 3}
       propertyPath: m_Name
       value: Scene Loader
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757631447917044789, guid: 0e080aed444078c4da469493a6e69060, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263195982167126665, guid: 0e080aed444078c4da469493a6e69060, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

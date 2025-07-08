@@ -34,7 +34,8 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDisable()
     {
-        
+        GameManager.onLoading -= HandleLoading;
+
     }
 
     private void Awake()
@@ -60,18 +61,20 @@ public class PlayerController : MonoBehaviour
         {
             stateMachine.OnUpdate();
             HandleRotation();
-            // HandleMovement();
             if (Input.GetKeyDown(shootKey))
             {
                 HandlePossession();
             }
+
         }
+       
     }
 
     private void HandleLoading()
     {
         Debug.Log("here");
         isLoading = !isLoading;
+       
     }
 
     private void HandlePossession()

@@ -17,6 +17,11 @@ public class GameplayMenu : MonoBehaviour
     {
         PlayerPause.onPausePress -= HandlePause;
     }
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+
+    }
     private void HandlePause(bool state)
     {
         pauseCanvas.SetActive(state);
@@ -24,10 +29,14 @@ public class GameplayMenu : MonoBehaviour
         if (state == true) 
         {
             Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+
         }
         else
         {
             Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+
 
         }
     }
