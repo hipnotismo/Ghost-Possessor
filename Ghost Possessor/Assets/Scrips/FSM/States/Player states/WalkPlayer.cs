@@ -46,11 +46,7 @@ public class WalkPlayer : BaseState
             player.rb.velocity = velocity;
        
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        //if (player.animator != null)
-        //{
-
-        //}
-       // player.animator.SetFloat("Velocity",Vector3.Dot(player.rb.velocity, player.transform.forward) );
+      
         player.animator.SetBool("Walking", true);
 
         if (moveInput == Vector2.zero)

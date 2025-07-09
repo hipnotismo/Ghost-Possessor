@@ -13,4 +13,12 @@ public class WaterStates : BaseStateList
         state.Add(new WaterAbility(machine, player));
         return state;
     }
+
+    public void EndOfAbilityAnimaion()
+    {
+        PlayerController player = GetComponent<PlayerController>();
+
+        player.animator.SetBool("Water", false);
+
+    }
 }

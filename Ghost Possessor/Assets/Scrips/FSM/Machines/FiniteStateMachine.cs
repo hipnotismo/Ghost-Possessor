@@ -14,6 +14,7 @@ public class FiniteStateMachine
         
         state.Add(new IdlePlayer(this,player));
         state.Add(new WalkPlayer(this, player));
+        state.Add(new JumpPlayer(this, player));
         currentState = state[0];
     }
 

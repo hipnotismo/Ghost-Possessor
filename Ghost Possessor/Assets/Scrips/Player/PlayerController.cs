@@ -28,6 +28,11 @@ public class PlayerController : MonoBehaviour
     [Header("Animator")]
     public Animator animator = null;
 
+    [Header("Jump")]
+    public bool isGrounded;
+    public int maxJumps;
+    public int currentJumps;
+
     private bool isLoading;
 
     private void OnEnable()
@@ -63,6 +68,14 @@ public class PlayerController : MonoBehaviour
     {
         if (!isLoading)
         {
+            Ray groundRay = new Ray(rb.position, Vector3.up * -1.0f);
+
+            isGrounded = Physics.Raycast(groundRay, 0.75f);
+            if(isGrounded == true)
+            {
+                currentJumps = 0;
+            }
+
             stateMachine.OnUpdate();
             HandleRotation();
             if (Input.GetKeyDown(shootKey))
@@ -88,7 +101,7 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 5f))
         {
             Debug.Log("Ray hits something");
-            if (hit.collider.CompareTag("possess") )
+            if (hit.collider.CompareTag("possess") | hit.collider.CompareTag("possess"))
             {
                 Debug.Log("Trying to posses");
 

@@ -1,4 +1,7 @@
 
+using Unity.VisualScripting;
+using UnityEngine;
+
 public class JumpPlayer:BaseState
 {
     private PlayerController player;
@@ -6,12 +9,13 @@ public class JumpPlayer:BaseState
     public JumpPlayer(FiniteStateMachine fsm, PlayerController player) : base(fsm, player.gameObject)
     {
         this.player = player;
+        playerState = PlayerState.jump;
     }
 
     public override void Init()
     {
-        playerState = PlayerState.jump;
     }
+
     public override void OnEnter()
     {
         base.OnEnter();
@@ -19,7 +23,16 @@ public class JumpPlayer:BaseState
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
+  
+        //if (/*player.isGrounded == true &&*/ player.currentJumps < player.maxJumps)
+        //{
+            player.rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            player.currentJumps++;
+        //}
+
+        //if(player.isGrounded == true)
+        fsm.ChangeTo(PlayerState.idle);
+
     }
 
     public override void OnExit()

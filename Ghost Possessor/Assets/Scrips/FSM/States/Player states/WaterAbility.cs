@@ -24,7 +24,6 @@ public class WaterAbility : BaseState
 
     public override void OnUpdate()
     {
-        Debug.Log("ABILITY WATER");
         RaycastHit hit;
 
         Vector3 spawnPosition = player.transform.position;
@@ -32,7 +31,6 @@ public class WaterAbility : BaseState
 
         if (Physics.Raycast(spawnPosition, spawnDirection, out hit, 5f))
         {
-            Debug.Log("GOT A RAY");
 
             IInteractable isHit = hit.collider.GetComponent<IInteractable>();
 
@@ -44,6 +42,8 @@ public class WaterAbility : BaseState
             }
 
         }
+        player.animator.SetBool("Water", true);
+
         fsm.ChangeTo(PlayerState.idle);
 
     }

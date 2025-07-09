@@ -10,6 +10,7 @@ public class IdlePlayer:BaseState
         playerState = PlayerState.idle;
     }
     [SerializeField] private KeyCode shootKey = KeyCode.V;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
 
     public override void Init()
     {
@@ -25,8 +26,6 @@ public class IdlePlayer:BaseState
     {
         base.OnUpdate();
 
-        player.animator.SetFloat("Velocity", 0f);
-
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (moveInput != Vector2.zero)
         {
@@ -35,6 +34,10 @@ public class IdlePlayer:BaseState
         if (Input.GetKeyDown(shootKey))
         {
             fsm.ChangeTo(PlayerState.water);
+        }
+        if (Input.GetKeyUp(jumpKey) && player.currentJumps < player.maxJumps)
+        {
+            fsm.ChangeTo(PlayerState.jump);
         }
     }
 
