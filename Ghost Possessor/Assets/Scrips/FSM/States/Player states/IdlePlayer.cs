@@ -25,6 +25,8 @@ public class IdlePlayer:BaseState
     {
         base.OnUpdate();
 
+        player.animator.SetFloat("Velocity", 0f);
+
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         if (moveInput != Vector2.zero)
         {

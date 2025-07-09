@@ -41,10 +41,18 @@ public class WalkPlayer : BaseState
         Vector3 moveDir = (camForward * v + camRight * h).normalized;
         Vector3 velocity = new Vector3(moveDir.x * player.moveSpeed, player.rb.velocity.y, moveDir.z * player.moveSpeed);
 
+      
         if (CanMove(moveDir))
             player.rb.velocity = velocity;
        
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        //if (player.animator != null)
+        //{
+
+        //}
+       // player.animator.SetFloat("Velocity",Vector3.Dot(player.rb.velocity, player.transform.forward) );
+        player.animator.SetBool("Walking", true);
+
         if (moveInput == Vector2.zero)
         {
             fsm.ChangeTo(PlayerState.idle);
@@ -80,5 +88,7 @@ public class WalkPlayer : BaseState
     public override void OnExit()
     {
         base.OnExit();
+        player.animator.SetBool("Walking", false);
+
     }
 }

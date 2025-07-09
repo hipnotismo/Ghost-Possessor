@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     private FiniteStateMachine stateMachine;
     private BaseStateList states = null;
 
+    [Header("Animator")]
+    public Animator animator = null;
+
     private bool isLoading;
 
     private void OnEnable()
@@ -44,12 +47,13 @@ public class PlayerController : MonoBehaviour
         onPlayerCreated?.Invoke(this);
         stateMachine = new FiniteStateMachine();
         states = GetComponent<BaseStateList>();
+        animator = GetComponent<Animator>();
+
         if (states != null)
         {
-            Debug.Log("WE ARE NOT NULL");
             stateMachine.Initialize(states.Initialize(stateMachine, this));
-
         }
+
         stateMachine.GetPlayer(this);
         stateMachine.Initialize();
     }
